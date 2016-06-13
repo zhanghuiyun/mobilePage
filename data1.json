@@ -1,0 +1,26 @@
+[
+{
+	"city" : "厦门",
+	"cityId" : "1",
+	"schoolArr" : [{
+	"school" : "厦门理工学院",
+	"schoolId" : "1"
+	},
+	{
+		"school" : "厦门集美大学",
+		"schoolId" : "2"
+	},
+	{
+		"school" : "厦门大学",
+		"schoolId" : "3"
+	},
+	{
+		"school" : "厦门海洋学院",
+		"schoolId" : "4"
+	},
+	{
+		"school" : "厦门华侨大学",
+		"schoolId" : "5"
+	}]
+}
+]

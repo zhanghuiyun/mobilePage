@@ -1,0 +1,295 @@
+/* @我要申请  ********************************************
+														*/
+.wrapper{
+	margin: 30px auto; 
+	border:none;
+}
+.container{
+	padding: 0;
+	border:none;
+}
+.submitBtn{
+	width: 90%;
+	margin: 0 auto;
+}
+#name,#money,#moneyWhere{
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+#QQ,#school,#otherReason{
+	border: none;
+}
+/*#QQ{
+	border-top:1px solid #ccc;
+}*/
+#otherReason{
+	border-bottom:1px solid #ccc;
+	padding-top: 20px;
+}
+.wrapper .am-form input,#school,#moneyWhere,.am-form #otherReason{
+	border-right: 0;
+	border-left: 0;
+	height: 60px;
+	margin: 0;
+}
+#school,#moneyWhere{
+	color: #999;
+}
+
+.am-icon-check,.am-icon-times{
+    display: inline-block;
+    font-style: normal;
+    position: absolute;
+    right: 11px;
+    top: 0;
+    line-height: 60px;
+}
+/* @选择学校  ********************************************
+														*/
+.main {
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+@media only screen and (max-width: 640px){
+	.pcmaster {
+   	 	width: initial;
+	}
+}
+
+.banner_left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    background: #eee;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.market_list {
+    min-height: 400px;
+    background: #fff;
+    width: 75%;
+    margin-left: 25%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.banner_left li a {
+    display: block;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    padding: 1.2rem 0.5rem;
+    font-size: 1.4rem;
+}
+.current {
+    background: #ffffff;
+    border-left: 3px rgb(0,153,255) solid;
+}
+ul{
+	list-style: none;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+}
+a{
+	color: #333;
+}
+
+#school_detail li{
+	display: list-item;
+    text-align: -webkit-match-parent;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+}
+#school_detail li a{
+    display: block;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    padding: 1.2rem 0.5rem;
+    font-size: 1.4rem;
+}
+#school_detail li a:hover{
+	color: #0E90D2;
+}
+
+/* @选择省份 ********************************************
+														*/
+#provice li{
+	display: list-item;
+    text-align: -webkit-match-parent;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+}
+#provice li a{
+    display: block;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    padding: 0.5rem 0.5rem;
+    font-size: 1.4rem;
+}
+#provice li a:hover{
+	color: #0E90D2;
+}
+
+/* @暂无数据 ********************************************
+														*/
+.no_date{
+    background: url(../images/img_school.png) no-repeat;
+    width: 8rem;
+    height: 8rem;
+    background-size: 100%;
+    position: fixed;
+    left: 50%;
+    top: 15rem;
+}
+
+.no_date_all{
+    margin: 0 auto;
+    left:0;
+    right:0;
+    position: absolute;
+}
+/* @首页 ********************************************
+                                                        */
+.index .container{
+    position: relative;
+    width: 100%;
+}
+.index .bg img{
+    position: absolute;
+    z-index: 10;
+}
+.index .operation{
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    height: 80px;
+    background-color: rgba(255,255,255,0.5);
+    bottom:0;
+}
+.index .operation ul{
+    display: block;
+    width: 300px;
+    margin: 20px auto;
+    height: 40px;
+}
+.index .operation ul li{
+    width: 120px;
+    height: 40px;
+    display: inline-block;
+    border: 1px solid #0E90D2;
+    line-height: 40px;
+    background-color: #0E90D2;
+    border-radius: 3px;
+}
+.index .operation ul li:hover{
+    background-color: #fff;
+}
+
+.index .operation ul li a{
+    color: #fff;
+}
+.progress{
+    margin-left: 54px;
+}
+/* @查看进度 ********************************************
+                                                        */
+.watchProgress{
+    background-color: rgba(238, 238, 238, 0.16);
+}
+
+.watchProgress .container,.applyDeatil_waitCheck .container,.applyDeatil_rejectCheck .container{
+    width: 90%;
+    margin: 0 auto;
+}
+.panel{
+    margin: 20px auto;
+}
+.info{
+    border-bottom: 1px solid #DDD;
+}
+.watchProgress .am-panel-default {
+    border-color: #0e90d2;
+    border-radius: 5px;
+}
+.check {
+    text-align:right;font-size: 18px;color: rgba(0,0,0,.7);
+}
+
+/* @查看进度 -- 进度详情 -- 待审核 ********************************************
+                                                        */
+.applyDeatil_waitCheck{
+    font-size: 1.4rem;
+}
+.applyDeatil_waitCheck .container{
+    margin-top: 5rem;
+}
+.applyDeatil_waitCheck .container .am-g {
+    margin-bottom: 0.2rem;
+}
+.applyDeatil_waitCheck .container .am-panel-default>.am-panel-hd {
+    background-color: #CCC;
+    padding: 1.2rem;
+}
+.applyDeatil_waitCheck .container .am-panel-default{
+    border-radius: 3px;
+}
+/* @查看进度 -- 进度详情 -- 拒绝申请 ********************************************
+                                                        */
+.applyDeatil_rejectCheck .container .am-g{
+    text-align: center;
+}
+.applyDeatil_rejectCheck .panel .am-panel {
+    box-shadow: 0 0px 0px rgba(0,0,0,.05);
+}
+.applyDeatil_rejectCheck .panel .am-panel-default {
+    border-color: transparent; 
+}
+.applyDeatil_rejectCheck .container .am-panel-default{
+    border-radius: 3px;
+}
+.applyDeatil_rejectCheck .container .am-g {
+    margin-bottom: 0.2rem;
+}
+.applyDeatil_rejectCheck .container .am-panel-default>.am-panel-hd {
+    background-color: #CCC;
+    padding: 1.2rem;
+}
+.applyDeatil_rejectCheck .panel{
+    margin-bottom: 5rem;
+}
+/* @查看进度 -- 进度详情 -- 同意申请 ********************************************
+                                                        */
+.applyDeatil_argeeCheck .pannel1 .am-panel-default {
+    border-color: transparent; 
+}
+.applyDeatil_argeeCheck .pannel1 .am-panel {
+    box-shadow: 0 0px 0px rgba(0,0,0,.05);
+}
+.applyDeatil_argeeCheck .am-panel-default {
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+.applyDeatil_argeeCheck .pannel1 table thead{
+    background-color: #ddd;
+    color: rgba(51, 51, 51, 0.53);
+}
+.applyDeatil_argeeCheck .pannel1 table tbody tr:last-child{
+    border-bottom: 1px solid #ccc;
+}
+.applyDeatil_argeeCheck .am-icon-check, .am-icon-times{
+    display: inline-block;
+    font-style: normal;
+    position: relative; 
+    top: 0;
+    height: 1.25rem;
+    line-height: 1.25rem;
+}

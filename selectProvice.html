@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>分期购-选择省份</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8;">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.6.2/css/amazeui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/buyInDevide.css"></head>
+</head>
+<body scroll="no" class="selectProvice">
+	<!-- 省份列表容器 -->
+	<div id="J_main" class="pcmaster main" >
+		<div style="height:100%" id="proviceWrapper" class="proviceWrapper">
+			<!-- 省份列表项 -->
+			<ul id="provice" style="padding-left:0;">
+				
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="static/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			//设置高度
+	 		var height = $(window).height();
+	        $('#proviceWrapper').height(height);   //侧边栏
+	        
+	        $.ajax({
+	            type : "GET",
+	            url : "data.json",
+	            dataType : "json",
+	            success  : function(data){
+	            	//城市列表
+	            	for (var i = 0 , j=data.length ; i < j; i++) {
+	            		var temp ='<li><a class="right_item" id="J_right'+data[i].proviceId+'" data-id="'+data[i].proviceId+'">'+data[i].provice+'</a></li>'
+	            		$('#provice').append(temp);
+	            	};
+
+	            	//省份点击
+	            	$('#provice li').on('click',function(){
+	            		var proviceId = $(this).find("a").attr("data-id");
+	            		window.location.href='selectSchool.html?proviceId='+proviceId+'';
+	            	});
+
+	            	//暂无数据判断
+	            	if (data.length === 0) {
+	            		var temp ='<div class=" no_date no_date_all"><div style="margin:0 auto;margin-top:8rem;text-align:center;">暂无数据</div></div>';
+                    	$('#J_main').append(temp);
+	            	};
+
+	            }
+	        });
+		})
+		
+	</script>
+</body>
+</html>

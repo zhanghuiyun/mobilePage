@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>分期购-我要申请</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8;">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.6.2/css/amazeui.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/buyInDevide.css">
+</head>
+<body>
+	<div class="am-g wrapper">
+		<div class="am-u-md-8 am-u-sm-centered container">
+		    <form class="am-form">
+			    <fieldset class="am-form-set formArea">
+			    	<!-- name -->
+			    	<div>
+				        <input type="text" class="" id="name" name="name" placeholder="输入姓名" data-identify="" data-value="value"/> 
+				        <span class="am-icon-check name-check-right" style="display:none;"></span>
+				        <span class="am-icon-times name-check-wrong" style="display:none;"></span>
+			    	</div>
+
+			    	<!-- qq -->
+			    	<div style="position: relative;">
+			    		<input type="text" class="" id="QQ" name="QQ" placeholder="输入QQ号" data-identify=""  data-value="value" />
+			    		<span class="am-icon-check qq-check-right" style="display:none;"></span>
+				        <span class="am-icon-times qq-check-wrong" style="display:none;"></span>
+			    	</div>
+			        
+			        <!-- 申请的额度 -->
+			    	<div style="position: relative;">
+			        	<input type="text" name="money" class="" id="money" placeholder="输入申请的额度" data-identify="" data-value="value"/>
+			        	<span class="am-icon-check money-check-right" style="display:none;"></span>
+				        <span class="am-icon-times money-check-wrong" style="display:none;"></span>
+			        </div>
+
+			        <!-- 学校 -->
+			        <select id="school" name="school" data-type="select" class="select">
+			        	<option disabled selected style='display:none;color:#9B9B9B;'>请选择学校</option>
+				        <!-- <option value="1">厦门理工学院</option> -->
+				    </select>
+
+				    <!-- 资金用途 -->
+				    <select id="moneyWhere" name="moneyWhere" data-type="select" class="select" data-value="value">
+				    	<option disabled selected style='display:none;color:#9B9B9B;'>请选择资金用途</option>
+				        <option value="1">买房</option>
+				    </select>
+
+				    <!-- 其他用途的理由 -->
+				    <div style="position: relative;">
+				    	<textarea class="" name="otherReason" id="otherReason" placeholder="手动输入其他用途的理由" data-identify="" data-value="value"></textarea>
+				    	<span class="am-icon-check otherReason-check-right" style="display:none;"></span>
+				        <span class="am-icon-times otherReason-check-wrong" style="display:none;"></span>
+				    </div>
+			    </fieldset>
+
+			    <div class="submitBtn">
+			    	<button type="submit" class="am-btn am-btn-primary am-btn-block" id="submit">保存提交</button>
+			    </div>
+
+		    </form>
+		</div>
+
+		<!-- 模态框 -->
+		<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+			<div class="am-modal-dialog">
+			    <div class="am-modal-hd">表单不完整</div>
+				    <div class="am-modal-bd">
+				      	请将信息填写完整！所有项都是非空项
+				    </div>
+				    <div class="am-modal-footer">
+				      <span class="am-modal-btn">确定</span>
+				    </div>
+			  	</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script type="text/javascript" src="../static/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.js"></script>
+	<script type="text/javascript">
+	    $(function(){
+	    	//地址栏参数获取
+	    	function GetQueryString(name){
+			    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			    var r = window.location.search.substr(1).match(reg);
+			    if(r!=null)return  unescape(r[2]); return null;
+			}
+
+			//本地数据获取
+			var strKey = "strKey"; 
+			var schoolSession = "schoolSession"; 
+	 		var storage = window.localStorage; 
+	 		var value = JSON.parse(storage.getItem(strKey));
+	 		var schoolItem = JSON.parse(storage.getItem(schoolSession));
+
+	 		//数据填充
+			var state=GetQueryString("state");
+			//判断地址栏是否传有参数
+			if(state !=null && state.toString().length>1){
+			  	$('#name').val(value.name);
+			  	$('#QQ').val(value.QQ);
+			  	$('#money').val(value.money);
+			  	if (value.moneyWhere === null) {
+			  		$("#moneyWhere option:first").prop("selected", 'selected');
+			  	}else{
+			  		$('#moneyWhere').val(value.moneyWhere);
+			  	}
+			  	$('#otherReason').val(value.otherReason);
+
+			  	var temp = '<option value="'+schoolItem.schoolId+'" selected>'+schoolItem.schoolName+'</option>';
+			  	$('#school').append(temp);
+			  	nameCheck();
+			  	otherReason();
+			  	QQcheck();
+			  	moneyCheck();
+			}
+	    });
+		
+		function nameCheck(){
+			var value = $('#name').val();
+	    	var iconRight = $('.name-check-right');
+	    	var iconWrong = $('.name-check-wrong');
+
+	    	var reg=/^([\u4e00-\u9fa5]){2,7}$/;
+	    	if (reg.test(value)) {
+	    		iconRight.css("display",'block');
+	    		iconWrong.css("display",'none');
+	    		iconRight.attr("data-identify","yes");
+	    	}else{
+	    		iconRight.css("display",'none');
+	    		iconWrong.css("display",'block');
+	    	}
+		}
+
+	    /*name框验证*/
+	    $('#name').on('keyup',function(){
+	    	nameCheck();
+	    });
+
+	    function QQcheck(){
+	    	var value = $('#QQ').val();
+	    	var iconRight = $('.qq-check-right');
+	    	var iconWrong = $('.qq-check-wrong');
+	    	var reg=/^\d{5,}$/;
+	    	if (reg.test(value)) {
+	    		iconRight.css("display",'block');
+	    		iconWrong.css("display",'none');
+	    		iconRight.attr("data-identify","yes");
+	    	}else{
+	    		iconRight.css("display",'none');
+	    		iconWrong.css("display",'block');
+	    	}
+	    }
+	    /*qq号框验证*/
+	    $('#QQ').on('keyup',function(){
+	    	QQcheck();
+	    });
+
+
+	    function moneyCheck(){
+	    	var value = $('#money').val();
+	    	var iconRight = $('.money-check-right');
+	    	var iconWrong = $('.money-check-wrong');
+	    	var reg=/^\+?[1-9][0-9]*$/;
+	    	if (reg.test(value)) {
+	    		iconRight.css("display",'block');
+	    		iconWrong.css("display",'none');
+	    		iconRight.attr("data-identify","yes");
+	    	}else{
+	    		iconRight.css("display",'none');
+	    		iconWrong.css("display",'block');
+	    	}
+	    }
+	  	/*申请金额框验证*/
+	    $('#money').on('keyup',function(){
+	    	moneyCheck();
+	    });
+
+
+	    function otherReason(){
+	    	var value = $('#otherReason').val();
+	    	var iconRight = $('.otherReason-check-right');
+	    	var iconWrong = $('.otherReason-check-wrong');
+	    	if (value == "") {
+	    		iconRight.css("display",'none');
+	    		iconWrong.css("display",'block');
+	    	}else{
+	    		iconRight.css("display",'block');
+	    		iconWrong.css("display",'none');
+	    		iconRight.attr("data-identify","yes");
+	    	}
+	    }
+	  	/*其他理由框验证*/
+	    $('#otherReason').on('keyup',function(){
+	    	otherReason();
+	    });
+	   
+	    /*点击按钮时验证*/
+	    $('#submit').on('click',function(){
+	    	/*var right = $('.am-icon-check').attr("data-identify");*/
+	    	var right = $('[data-identify = "yes"]');
+	    	var school = $('#school').val();
+	    	var moneyWhere = $('#moneyWhere').val();
+	   		if (right.length === 4 && school != null && moneyWhere != null) {
+	   			
+	   		}else{
+	   			$('#my-alert').modal();
+	   			return false;
+	   		}
+	    });
+
+	    $('#school').on('click',function(){
+
+			var valueItem = $('[data-value="value"]');
+
+	    	var param = {};
+	    	$.each(valueItem,function(index){
+            	param[$(this).attr('name')] = $(this).val();
+        	});
+
+	    	var strKey = "strKey"; 
+        	var storage = window.localStorage; 
+
+            if (storage) { 
+	            storage.setItem(strKey, JSON.stringify(param));   
+	        } else { 
+	            Cookie.write(strKey, JSON.stringify(param));  
+	        } 
+
+	        window.location.href="selectProvice.html"; 
+	    });
+
+	    $(function(){
+	    	//select框样式变化
+	    	$('[data-type="select"]').each(function(){
+	    		console.info($(this).val());
+			    if ($(this).val() != null) {
+			    	$(this).css("color","#555");
+			    };
+			});
+	    })
+	</script>
+</body>
+</html>

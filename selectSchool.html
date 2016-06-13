@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>分期购-选择学校</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8;">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.6.2/css/amazeui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/buyInDevide.css"></head>
+<body scroll="no">
+
+	<div id="J_main" class="pcmaster main" >
+		<div style="height:100%" id="J_bannerLeft" class="banner_left">
+			<ul id="city" style="padding-left:0;">
+				
+			</ul>
+		</div>
+
+		<div id="J_waterflow" class="market_list">
+			
+			<ul id="school_detail" style="padding-left:0;">
+				
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="static/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.4.2/js/amazeui.js"></script>
+	<script type="text/javascript">
+	 	$(function(){
+	 		//设置高度
+	 		var height = $(window).height();
+            $('#J_bannerLeft').height(height);   //侧边栏
+            $('#J_waterflow').height(height);    //信息部分
+
+            //地址栏参数获取
+	    	function GetQueryString(name){
+			    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			    var r = window.location.search.substr(1).match(reg);
+			    if(r!=null)return  unescape(r[2]); return null;
+			}
+
+			//取得省份id
+			var proviceId = GetQueryString("proviceId");
+
+			//左侧数据显示
+            $.ajax({
+	            type : "GET",
+	            url : "data1.json",
+	            dataType : "json",
+	            data : proviceId,
+	            success  : function(data){
+
+	            	//城市校园都没有
+	            	if (data.length === 0){
+	            		var temp ='<div class=" no_date no_date_all"><div style="margin:0 auto;margin-top:8rem;text-align:center;">暂无数据</div></div>';
+	                    $('#J_main').append(temp);
+	                    $('#J_bannerLeft').remove();
+	            	}else{
+
+	            		for (var i = 0 , j = data.length ; i < j; i++){
+	            			var city = data[i].city;
+
+	            			//含有城市项
+	            			if (city != undefined) {
+	            				var temp ='<li><a class="left_item" id="J_left'+data[i].cityId+'" data-id="'+data[i].cityId+'">'+data[i].city+'<span id="J_leftBuy'+data[i].cityId+'" class="banner_buy_icon" style="display: none;"></span></a></li>'
+	            				$('#city').append(temp);
+
+	            				//城市项点击
+	            				$('#city li').on('click',function(){
+	            					$('#school_detail li').remove();
+	            					$(this).addClass("current").siblings().removeClass("current");
+	            					var cityId = $(this).find("a").attr("data-id");
+	            					
+	            					$.ajax({
+	            						type : "GET",
+							            url : "data1.json",
+							            dataType : "json",
+							            data : cityId,
+							            success : function(data) {
+							            	//学校列表
+							            	for (var i = 0 , j=data.length ; i < j; i++) {
+							            		if (data[i].schoolArr != undefined) {
+	            									if(data[i].schoolArr.length === 0){
+
+	            									}else{
+	            										for (var m = data[i].schoolArr.length , n=0 ; n < m ; n++ ) {
+															var temp ='<li><a class="right_item" id="J_right'+data[i].schoolArr[n].schoolId+'" data-id="'+data[i].schoolArr[n].schoolId+'">'+data[i].schoolArr[n].school+'</a></li>';
+
+															$('#school_detail').append(temp);
+														};
+	            									}
+	            								}
+
+							            		if (data[i].schoolArr === undefined) {
+							            			var temp ='<div class=" no_date"><div style="margin:0 auto;margin-top:8rem;text-align:center;">暂无数据</div></div>';
+	                    							$('#J_waterflow').append(temp);
+							            		}
+							            	};
+
+							            	//学校点击
+							            	$('#school_detail li').on('click',function(){
+							            		var param = {};
+
+							            		param.schoolName = $(this).text();
+							            		param.schoolId = $(this).find("a").attr("data-id");
+
+							            		var schoolSession = "schoolSession"; 
+									        	var storage = window.localStorage; 
+
+									            if (storage) { 
+										            storage.setItem(schoolSession, JSON.stringify(param));   
+										        } else { 
+										            Cookie.write(schoolSession, JSON.stringify(param));  
+										        } 
+
+							            		window.location.href="apply.html?state=trun"; 
+							            	});
+							            }
+	            					})
+	            				});
+
+	            				$('#city li').eq(0).click();
+	            			};
+
+	            			//没有城市项
+							/*if (city === undefined) {
+								for (var m = data[i].schoolArr.length , n=0 ; n < m ; n++ ) {
+									var temp ='<li><a class="right_item" id="J_right'+data[i].schoolArr[n].schoolId+'" data-id="'+data[i].schoolArr[n].schoolId+'">'+data[i].schoolArr[n].school+'</a></li>';
+									$('#school_detail').append(temp);
+			            			$('#J_waterflow').css("width","100%").css("margin-left","0");
+			            			$('#J_bannerLeft').remove();
+								};
+							};	  */          			
+	            		}
+	            	}
+
+
+
+	            },
+	            error : function(){
+	            	window.location.href="apply.html"; 
+	            }
+	        })
+	 	})
+
+
+	</script>
+</body>
+</html>
